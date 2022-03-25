@@ -38,9 +38,22 @@ function getMatchDetails(html){
     let matchResEle = selecTool(".match-info.match-info-MATCH.match-info-MATCH-half-width>.status-text");
 
     console.log(matchResEle.text());
+    // 4. team name
+   let teamNames = selecTool(".name-detail>.name-link");
+
+   let team1  = selecTool(teamNames[0]).text();
+   let team2  = selecTool(teamNames[1]).text();
+
+   console.log(team1);
+   console.log(team2);
+//    5. get batsman detail
+   let allBatsmenRows =  selecTool(".table.batsman tbody>tr");
+   console.log(allBatsmenRows.text());
+
 
 
 }
+
 
 
 
