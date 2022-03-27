@@ -67,7 +67,7 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
          let firstColmnOfRow = row.find("td")[0];
          if(selecTool(firstColmnOfRow).hasClass("batsman-cell")){
 
-            let playerName = selecTool(row.find("td")[0]).text();
+            let playerName = selecTool(row.find("td")[0]).text().trim();
             let runs = selecTool(row.find("td")[2]).text();
             let balls = selecTool(row.find("td")[3]).text();
             let numberOf4 = selecTool(row.find("td")[5]).text();
@@ -88,7 +88,7 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
               matchResult,
               team1,
               team2,
-              team2playerName,
+              playerName,
               runs,
               balls,
               numberOf4,
@@ -114,7 +114,7 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
     if(!fs.existsSync(teamNamePath)){
         fs.mkdirSync(teamNamePath);
     }
-  }
+  
 
   let playerPath = path.join(teamNamePath , playerName + ".xlsx");
   let content = excelReader(playerPath , playerName);
@@ -145,10 +145,17 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
 }
 
 
-function excelReader(playerPath , playerName){
+function excelReader(playerPath , sheetName){
     if(!fs.existsSync(playerPath)){
         return [];
     }
+
+  let workBook = xlsx.readFile(playerPath);
+
+  let excelData = workBook.Sheets[sheetName];
+  let playerObj = xlsx.utils.sheet_to_json(excelData);
+  return playerObj;
+
 }
 
 
