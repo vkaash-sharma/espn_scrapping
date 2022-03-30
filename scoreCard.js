@@ -67,7 +67,36 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
          let firstColmnOfRow = row.find("td")[0];
          if(selecTool(firstColmnOfRow).hasClass("batsman-cell")){
 
-            let playerName = selecTool(row.find("td")[0]).text().trim();
+           
+          let pn = selecTool(row.find("td")[0]).text().split("");
+        // console.log(pn);
+        // console.log(pn.join(""));
+        let playerName = "";
+        //Determines whether an array includes a certain element, returning true or false as appropriate.
+        if (pn.includes("(")) {
+          playerName = pn.join("").split("(")[0];
+          // console.log(playerName);
+        } else if (pn.includes("†")) {
+          playerName = pn.join("").split("†")[0];
+          // console.log(playerName);
+        } else playerName = pn.join("");
+        //playerName = "hello"; //†
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
             let runs = selecTool(row.find("td")[2]).text();
             let balls = selecTool(row.find("td")[3]).text();
             let numberOf4 = selecTool(row.find("td")[5]).text();
@@ -169,10 +198,6 @@ function excelWriter(playerPath , jsObject , sheetName){
  // Attempts to write or download workbook data to file
     xlsx.writeFile(newWorkBook ,playerPath);
 }
-
-
-
-
 
 
 
