@@ -9,7 +9,7 @@ function getAllMatch(url){
 function cb(err , res , body){
   
     if(err){
-        console.error.log("error" , err);
+        console.log("error" , err);
     }else{
         extractAllMatchLink(body);
     }

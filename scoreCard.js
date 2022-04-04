@@ -15,7 +15,7 @@ function getInfoFromScorecard(url) {
         console.log(err);
     }
     else {
-        getMatchDetails(body);
+        gdetMatchDetails(boy);
     }
 }
 
