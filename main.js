@@ -5,7 +5,7 @@ const request = require("request");
 const cheerio = require("cheerio");
 const allMatchObj = require("./allMatch");
 
-request(url , cb);
+request(url,cb);
 
 function cb (err , res , body){
 
@@ -31,7 +31,12 @@ function handleHTML(html){
 
     let relativeLink = anchorElem.attr("href");
 
+    console.log("hii");
+
     let fullLink = "https://www.espncricinfo.com" + relativeLink;
     // console.log(fullLink);
+    console.log(relativeLink);
+    console.log(fullLink)
     allMatchObj.getAllMatch(fullLink);
+    console.log(fullLink);
 }

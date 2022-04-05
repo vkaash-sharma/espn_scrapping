@@ -14,8 +14,11 @@ function getInfoFromScorecard(url) {
     if (err) {
         console.log(err);
     }
+    else if (res.statusCode == 404) {
+      console.log("Page not found");
+    }
     else {
-        gdetMatchDetails(boy);
+        getMatchDetails(body);
     }
 }
 
@@ -43,23 +46,31 @@ function getMatchDetails(html){
     let matchResult = matchResEle.text()
     
     // 4. team name
-   let teamNames = selecTool(".name-detail>.name-link");
+   let teamNamesArr = selecTool(".name-detail>.name-link");
 
-   let team1  = selecTool(teamNames[0]).text();
-   let team2  = selecTool(teamNames[1]).text();
+   let ownTeam  = selecTool(teamNamesArr[0]).text();
+   let opponentTeam  = selecTool(teamNamesArr[1]).text();
 
-   console.log(team1);
-   console.log(team2);
+   console.log(ownTeam);
+   console.log(opponentTeam);
 //    5. get batsman detail
    let allBatsmenTable =  selecTool(".table.batsman tbody");
 //    console.log(allBatsmenRows.text());
 
-let htmlString = "";
+// let htmlString = "";
 
 for(let i = 0 ; i < allBatsmenTable.length ; i++){
-    htmlString+=selecTool(allBatsmenTable[i]).html();
+    // htmlString+=selecTool(allBatsmenTable[i]).html();
 
     let allRows = selecTool(allBatsmenTable[i]).find("tr");
+    if (i == 1) {
+      let temp = ownTeam;
+      ownTeam = opponentTeam;
+      opponentTeam = temp;
+    }
+    console.log(ownTeam);
+    console.log(opponentTeam);
+
 
     for(let i = 0 ; i < allRows.length ; i++){
          //Check to see if any of the matched elements have the given className
@@ -83,20 +94,6 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
         //playerName = "hello"; //†
 
 
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
             let runs = selecTool(row.find("td")[2]).text();
             let balls = selecTool(row.find("td")[3]).text();
             let numberOf4 = selecTool(row.find("td")[5]).text();
@@ -115,8 +112,8 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
               dateOfMatch,
               venueOfMatch,
               matchResult,
-              team1,
-              team2,
+             ownTeam,
+              opponentTeam,
               playerName,
               runs,
               balls,
@@ -136,9 +133,9 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
 
 
 
-  function processInformation(dateOfMatch,venueOfMatch,matchResult,team1,team2,playerName,runs,balls,numberOf4,numberOf6,sr){
+  function processInformation(dateOfMatch,venueOfMatch,matchResult,ownTeam,opponentTeam,playerName,runs,balls,numberOf4,numberOf6,sr){
 
-    let teamNamePath = path.join(__dirname,"IPL",team1);
+    let teamNamePath = path.join(__dirname,"IPL",ownTeam);
 
     if(!fs.existsSync(teamNamePath)){
         fs.mkdirSync(teamNamePath);
@@ -153,8 +150,8 @@ for(let i = 0 ; i < allBatsmenTable.length ; i++){
     dateOfMatch,
     venueOfMatch,
     matchResult,
-    team1,
-    team2,
+    ownTeam,
+    opponentTeam,
     playerName,
     runs,
     balls,
